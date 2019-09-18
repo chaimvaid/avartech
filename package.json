@@ -1,0 +1,11 @@
+{
+  "name": "avratech-project-managment",
+  "version": "1.0.0",
+  "description": "project managment",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "chaim vaidberg",
+  "license": "ISC"
+}
