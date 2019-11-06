@@ -10,3 +10,11 @@ describe('Test the tasksRouter root path', () => {
         })
     });
 })
+
+describe('Test the create user path', () => {
+    test('It should response the POST method', () => {
+        return request(app).post("/users").then(response => {
+            expect(response.statusCode).toBe(200)
+        })
+    });
+})

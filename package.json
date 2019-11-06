@@ -4,7 +4,7 @@
   "description": "project managment",
   "main": "index.js",
   "scripts": {
-    "test": "jest"
+    "test": "NODE_ENV=unit_tests npx sequelize-cli db:migrate:undo && NODE_ENV=unit_tests npx sequelize-cli db:migrate && NODE_ENV=unit_tests jest"
   },
   "author": "chaim vaidberg",
   "license": "ISC",
