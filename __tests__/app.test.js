@@ -18,13 +18,16 @@ describe('Test the tasksRouter root path', () => {
 })
 
 describe('Test the create user path', () => {
-    beforeEach(function(done) {
-        // Setup the database
-      //   db.sequelize
-      //     .getQueryInterface()
-      //     .dropAllTables()
-      //     .complete(function() { done(); }, function(err) { done(err); });
-      // });
+    beforeAll(function(done) {
+        try{
+            db.sequelize
+              .getQueryInterface()
+              .dropAllTables()
+              .complete(function() { done(); }, function(err) { done(err); });
+        }catch(e){
+            console.log(e)
+        }
+
         const umzug = new Umzug({
         migrations: {
         params: [ db.sequelize.getQueryInterface(), db.Sequelize ],
@@ -44,9 +47,20 @@ describe('Test the create user path', () => {
             console.log(migrations);
         });
     })
+
     it('should response the POST method', () => {
         return request(app).post("/users").then(response => {
             expect(response.statusCode).toBe(200)
         })
     });
+
+    it('should create new user in db with id 1', () => {
+        return request(app).post("/users").then(response => {
+            return db.User.findByPk(1).then(user=>{
+                expect(user).not.toBeNull()
+            })
+        })
+    });
+
+
 })
