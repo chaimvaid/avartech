@@ -8,7 +8,7 @@
     "operatorsAliases": false,
     "underscored": true
   },
-  "unit_tests": {
+  "test": {
     "username": "homestead",
     "password": "secret",
     "database": "unit_tests",
@@ -16,14 +16,6 @@
     "dialect": "mysql",
     "operatorsAliases": false,
     "underscored": true
-  },
-  "test": {
-    "username": "root",
-    "password": null,
-    "database": "database_test",
-    "host": "127.0.0.1",
-    "dialect": "mysql",
-    "operatorsAliases": false
   },
   "production": {
     "username": "root",
