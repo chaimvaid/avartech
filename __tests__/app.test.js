@@ -1,9 +1,10 @@
 const request = require('supertest');
-const app = require('../app')
-const db = require('../models')
 const path = require('path')
+console.log(path.basename('../app'))
+const app = require(path.join('../app'))
+const db = require(path.join('../models'))
 var Umzug = require("umzug");
-require('mysql2/node_modules/iconv-lite').encodingExists('foo');
+require(path.join('mysql2/node_modules/iconv-lite')).encodingExists('foo');
 
 
 
@@ -18,15 +19,17 @@ describe('Test the tasksRouter root path', () => {
 })
 
 describe('Test the create user path', () => {
-    beforeAll(function(done) {
-        try{
-            db.sequelize
-              .getQueryInterface()
-              .dropAllTables()
-              .complete(function() { done(); }, function(err) { done(err); });
-        }catch(e){
-            console.log(e)
-        }
+    beforeEach(async (done) => {
+        // jest.setTimeout(30000);
+
+        
+        await db.sequelize
+          .getQueryInterface()
+          .dropAllTables();
+
+            
+              
+        
 
         const umzug = new Umzug({
         migrations: {
@@ -40,12 +43,15 @@ describe('Test the create user path', () => {
         logging: console.log
         });
 
-        umzug.execute({
+        
+        await umzug.execute({
         migrations: ["20191023191008-create-user"],
         method: "up"
-        }).then(function(migrations) {
-            console.log(migrations);
-        });
+        })
+
+        done()
+
+        
     })
 
     it('should response the POST method', () => {
@@ -56,8 +62,18 @@ describe('Test the create user path', () => {
 
     it('should create new user in db with id 1', () => {
         return request(app).post("/users").then(response => {
-            return db.User.findByPk(1).then(user=>{
+            const User = db.User
+            return User.findByPk(1).then(user=>{
                 expect(user).not.toBeNull()
+            })
+        })
+    });
+
+    it('should create only one user', () => {
+        return request(app).post("/users").then(response => {
+            const User = db.User
+            return User.findAll().then(users=>{
+                expect(users.length).toBe(1)
             })
         })
     });
