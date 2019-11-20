@@ -78,5 +78,25 @@ describe('Test the create user path', () => {
         })
     });
 
+    test('Created user should contain request params', () => {
+        return request(app)
+        .post("/users")
+        .send({
+            first_name: 'chaim',
+            last_name: 'vaidberg',
+            email: 'chaimvaid@gmail.com',
+        })
+        .then(response => {
+            const User = db.User
+            return User.findOne().then(user=>{
+                expect(user).toMatchObject({
+                    first_name: 'chaim',
+                    last_name: 'vaidberg',
+                    email: 'chaimvaid@gmail.com',
+                })
+            })
+        })
+    });
+
 
 })

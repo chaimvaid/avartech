@@ -5,7 +5,7 @@ const db = require(path.join('../../models'))
 const User = db.User;
 
 usersRouter.post('/', (req, res) => {
-  User.create({}).then((user) => {
+  User.create(req.body).then((user) => {
       res.send(user)
   } ).catch(e=>console.log(e))  
 })
